@@ -28,8 +28,13 @@
 		List<Entity> tasks = datastore.prepare(q).asList(FetchOptions.Builder.withLimit(5));
 		if(tasks.isEmpty()) {
 		%>	
-			<p>Whoops! Something went horrible wrong!
-			We have assigned our best monkeys into fixing the problem.
+			<p>
+			Whoops!
+			Sometimes it takes a bit longer time for the page to reload with proper values.
+			Refresh the page in a 1-2 minute. That should do the trick.
+			
+			
+			If not we have assigned our best monkeys into fixing the problem.
 			Just bare with us until we get around to fix it.
 			</p>
 		<%
