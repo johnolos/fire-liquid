@@ -1,7 +1,3 @@
-Social Network Project
-===========
-Project repository for CS263
-
 Guestbook Example
 ==
 [Guestbook](http://icy-sun.appspot.com/)
