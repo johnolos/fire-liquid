@@ -1,15 +1,12 @@
 import org.json.JSONObject;
 import org.json.JSONException;
-
 import com.icy_sun.config.AppConf;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,11 +31,12 @@ public class FacebookSignInServlet extends HttpServlet {
 					+ AppConf.FACEBOOK_APP_ID
 					+ "&redirect_uri="
 					+ URLEncoder
-							.encode("http://icy-sun.appspot.com/user/FacebookSignInServlet",
+							.encode("http://icy-sun.appspot.com/sign/facebook/",
 									"UTF-8")
 					+ "&client_secret="
 					+ AppConf.FACEBOOK_SECRET + "&code=" + code;
 			URL u = new URL(g);
+			System.out.println(u);
 			URLConnection c = u.openConnection();
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					c.getInputStream()));
@@ -53,7 +51,9 @@ public class FacebookSignInServlet extends HttpServlet {
 						+ " with code: " + code);
 		} catch (Exception e) {
 			// an error occurred, handle this
+			System.out.println("Lol");
 		}
+		System.out.println("Token: " + token);
 
 		String graph = null;
 		try {
@@ -70,6 +70,7 @@ public class FacebookSignInServlet extends HttpServlet {
 			graph = b.toString();
 		} catch (Exception e) {
 			// an error occurred, handle this
+			System.out.println("LOL2");
 		}
 
 		String facebookId;
