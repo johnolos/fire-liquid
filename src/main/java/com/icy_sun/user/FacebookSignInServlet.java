@@ -1,3 +1,5 @@
+package com.icy_sun.user;
+
 import org.json.JSONObject;
 import org.json.JSONException;
 import com.icy_sun.config.AppConf;
@@ -31,7 +33,7 @@ public class FacebookSignInServlet extends HttpServlet {
 					+ AppConf.FACEBOOK_APP_ID
 					+ "&redirect_uri="
 					+ URLEncoder
-							.encode("http://icy-sun.appspot.com/sign/facebook/",
+							.encode("http://icy-sun.appspot.com/sign/facebook",
 									"UTF-8")
 					+ "&client_secret="
 					+ AppConf.FACEBOOK_SECRET + "&code=" + code;

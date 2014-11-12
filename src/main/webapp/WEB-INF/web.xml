@@ -69,6 +69,23 @@
 		<url-pattern>/serve</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>FacebookSignInServlet</servlet-name>
+		<servlet-class>com.icy_sun.user.FacebookSignInServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FacebookSignInServlet</servlet-name>
+		<url-pattern>/sign/facebook</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	<servlet-name>sign</servlet-name>
+		<jsp-file>/signin.jsp</jsp-file>
+		<init-param></init-param>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>sign</servlet-name>
+		<url-pattern>/sign/</url-pattern>
+		</servlet-mapping>
+	<servlet>
 		<servlet-name>Jersey Web Application</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>

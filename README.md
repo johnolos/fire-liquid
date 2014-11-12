@@ -5,14 +5,15 @@ Description
 =
 Social webpage on GAE that will gather information from facebook, twitter and other social webpages and created a customized page by using this information.
 
+Uses [Scrib](https://github.com/fernandezpablo85/scribe-java) to handle OAuth 2.0 Authentication.
+Uses [RestFB](http://restfb.com/) to interact with Facebook Graph Api.
 
 Current tasks:
 =
 * Facebook login and retrieving information.
-	* Getting 500 Server Error. 
-	  Most likely due to App on Facebook not being verified/live.
+	* Doesn't run compile currently and appengine:devserver acting up.
 * Twitter integration
-	* Use OAuth 2.0. Roughly the same as facebook.
+	* Not started, but basically same as Facebook.
 
 
 
