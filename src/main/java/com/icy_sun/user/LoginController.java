@@ -25,16 +25,19 @@ public class LoginController {
     		.callback("http://www.icy-sun.appspot.com/sign/facebook/")
     		.build();
 //    	Token requestToken = service.getRequestToken();
+    	// Get Authorization URL
     	String authUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-    	Verifier v = new Verifier("Facebook verifier");
-    	Token accessToken = service.getAccessToken(EMPTY_TOKEN, v);
-    	
-    	
-    	OAuthRequest authRequest = new OAuthRequest(Verb.GET, PROTECTED_FACEBOOK_URL);
-    	service.signRequest(accessToken, authRequest);
-    	Response response = authRequest.send();
-    	
-    	return response.getBody();
+    	// Verifier
+    	return authUrl;
+//    	Verifier v = new Verifier("Facebook verifier");
+//    	Token accessToken = service.getAccessToken(EMPTY_TOKEN, v);
+//    	
+//    	
+//    	OAuthRequest authRequest = new OAuthRequest(Verb.GET, PROTECTED_FACEBOOK_URL);
+//    	service.signRequest(accessToken, authRequest);
+//    	Response response = authRequest.send();
+//    	
+//    	return response.getBody();
     }
 
 }
