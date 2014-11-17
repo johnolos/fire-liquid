@@ -15,22 +15,9 @@ public class LoginController {
 	
 	private static final String PROTECTED_FACEBOOK_URL = "https://graph.facebook.com/me";
 	private static final Token EMPTY_TOKEN = null;
-	private static final boolean POPUP = true;
+	private static final boolean POPUP = false;
 	
     public static String doFacebookLogin() {
-    	
-    	/**
-    	id
-    	name
-    	first_name
-    	last_name
-    	link
-    	gender
-    	locale
-    	timezone
-    	updated_time
-    	verified
-    	**/
     	
     	OAuthService service = new ServiceBuilder()
     		.provider(FacebookApi.class)
@@ -39,22 +26,11 @@ public class LoginController {
     		.callback("http://www.icy-sun.appspot.com/sign/facebook/")
     		.scope(AppConf.FACEBOOK_SCOPE)
     		.build();
-//    	Token requestToken = service.getRequestToken();
-    	// Get Authorization URL
     	String authUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
     	
     	if(POPUP)
     		return authUrl + "&display=popup";
     	return authUrl;
-//    	Verifier v = new Verifier("Facebook verifier");
-//    	Token accessToken = service.getAccessToken(EMPTY_TOKEN, v);
-//    	
-//    	
-//    	OAuthRequest authRequest = new OAuthRequest(Verb.GET, PROTECTED_FACEBOOK_URL);
-//    	service.signRequest(accessToken, authRequest);
-//    	Response response = authRequest.send();
-//    	
-//    	return response.getBody();
     }
 
 }
