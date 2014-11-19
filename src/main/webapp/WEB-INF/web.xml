@@ -37,6 +37,15 @@
 		<servlet-name>login</servlet-name>
 		<url-pattern>/login/</url-pattern>
 	</servlet-mapping>
+		<servlet>
+	<servlet-name>facebook</servlet-name>
+		<jsp-file>/facebook.jsp</jsp-file>
+		<init-param></init-param>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>facebook</servlet-name>
+		<url-pattern>/facebook/</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>logout</servlet-name>
 		<servlet-class>com.icy_sun.user.LogoutServlet</servlet-class>

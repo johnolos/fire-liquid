@@ -21,6 +21,7 @@
 		%>
 			<p>Welcome, <%= user.getProperty("firstName") %> <%= user.getProperty("lastName") %> </p>
 			<a href="/">Home</a>
+			<a href="/facebook/">Facebook</a>
 			<a href="/logout/">Logout</a>
 		<% 
 		}

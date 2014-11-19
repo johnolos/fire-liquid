@@ -23,10 +23,14 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.icy_sun.config.AppConf;
+import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
+import com.restfb.types.Post;
+import com.restfb.types.User;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -69,11 +73,13 @@ public class FacebookSignInServlet extends HttpServlet {
 	private void authFacebookLogin(Token token, HttpSession session) {
 		FacebookClient facebookClient = new DefaultFacebookClient(
 				token.getToken());
-		com.restfb.types.User facebookUser = facebookClient.fetchObject("me",
-				com.restfb.types.User.class);
+		User facebookUser = facebookClient.fetchObject("me", User.class);
 		// UserService userService = UserServiceFactory.getUserService();
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Connection<Post> fbPost = facebookClient.fetchConnection("me/feed", Post.class);
+		List<Post> posts = fbPost.getData();
+		
 
 		Filter emailFilter = new FilterPredicate("email", FilterOperator.EQUAL,
 				facebookUser.getEmail());
@@ -86,27 +92,38 @@ public class FacebookSignInServlet extends HttpServlet {
 
 		try {
 			user = pq.asSingleEntity();
-
 		} catch (TooManyResultsException e) {
 			
 		}
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		String memKey = session.getId();
 		if (user != null) {
+			user.setProperty("facebookToken", token.getToken());
+			datastore.put(user);
 			syncCache.put(memKey, user);
 			session.setAttribute(AppConf.USER, user.getKey().getId());
 		} else {
 			Key userKey = KeyFactory.createKey("UserKey",
 					facebookUser.getEmail());
-			Entity userEntity = new Entity("User", userKey);
-			userEntity.setProperty("firstName", facebookUser.getFirstName());
-			userEntity.setProperty("lastName", facebookUser.getLastName());
-			userEntity.setProperty("email", facebookUser.getEmail());
-			userEntity.setProperty("facebookId", facebookUser.getId());
-			datastore.put(userEntity);
-			syncCache.put(memKey, userEntity);
+			user = new Entity("User", userKey);
+			user.setProperty("firstName", facebookUser.getFirstName());
+			user.setProperty("lastName", facebookUser.getLastName());
+			user.setProperty("email", facebookUser.getEmail());
+			user.setProperty("facebookId", facebookUser.getId());
+			user.setProperty("facebookToken", token.getToken());
+			datastore.put(user);
+			syncCache.put(memKey, user);
 			session.setAttribute(AppConf.USER, userKey.getId());	
 		}
+		for(Post post: posts) {
+			Entity postEntity = new Entity("FacebookPost", user.getKey());
+			postEntity.setProperty("date", post.getCreatedTime().toString());
+			postEntity.setProperty("message", post.getMessage());
+			postEntity.setProperty("caption", post.getCaption());
+			postEntity.setProperty("link", post.getLink());
+			datastore.put(postEntity);
+		}
+		
 		session.setAttribute(AppConf.LOGIN, Boolean.TRUE);
 		session.setMaxInactiveInterval(360000);
 	}
