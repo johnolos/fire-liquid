@@ -3,6 +3,8 @@
 <%@ page import="com.icy_sun.user.FacebookInformation" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.restfb.types.Post" %>
+<%@ page import="com.restfb.types.Comment.Comments" %>
+<%@ page import="com.restfb.types.Comment" %>
 <html>
 <head>
 </head>
@@ -11,23 +13,37 @@
 <h1>Facebook Page</h1>
 <%
 	HttpSession currentSession = request.getSession();
-	List<Post> posts = FacebookInformation.getFacebookPosts(currentSession);
+	List<Post> posts = FacebookInformation.getFacebookStatueses(currentSession);
 	
 	if(!posts.isEmpty()) {
 		for(Post post: posts) {
 			%>
 			<div class="facebook" id="Post">
 			<p>
-			Attribution <%= post.getAttribution() %>
-			Caption <%= post.getCaption() %>
-			Description <%= post.getDescription() %>
-			Icon <%= post.getIcon() %>
 			ID <%= post.getId() %>
-			Link <%= post.getLink() %>
 			Message <%= post.getMessage() %>
-			Name <%= post.getName() %>
-			Story <%= post.getStory() %>
-			Story <%= post.getCreatedTime() %>
+			Date <%= post.getCreatedTime().toString() %>
+			Picture <%= post.getPicture() %>
+			<% 
+			List<Comment> comments = post.getComments().getData();
+			for(Comment comment: comments) {
+				%>
+				
+				<div class="facebook" id="Comment">
+				<p>
+				
+				ID <%= comment.getId() %>
+				Message <%= comment.getMessage() %>
+				Date <%= comment.getCreatedTime().toString() %>
+				AttachmentType <%= comment.getAttachment().getType() %>
+				AttachmentURL <%= comment.getAttachment().getUrl() %>
+				From <%= comment.getFrom().getName().toString() %>
+				</p>
+				</div>
+				<%
+			}
+			
+			%>
 			</p>
 			</div>
 			<%

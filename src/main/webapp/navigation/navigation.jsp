@@ -4,7 +4,7 @@
 <%@ page import="com.google.appengine.api.datastore.Entity" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
 
-<%	
+<%
 	HttpSession currentSession = request.getSession(false);
 %>
 	<div class="navigaton">
@@ -14,7 +14,7 @@
 		%>
 			<a href="/">Home</a>
 			<a href="/login/">Login</a>
-		<% 
+		<%
 		} else {
 			MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 			Entity user = (Entity)syncCache.get(currentSession.getId());
@@ -23,8 +23,8 @@
 			<a href="/">Home</a>
 			<a href="/facebook/">Facebook</a>
 			<a href="/logout/">Logout</a>
-		<% 
+		<%
 		}
-		%>		
-		</p>			
+		%>
+		</p>
 	</div>
