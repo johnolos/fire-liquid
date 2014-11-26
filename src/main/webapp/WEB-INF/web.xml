@@ -37,7 +37,7 @@
 		<servlet-name>login</servlet-name>
 		<url-pattern>/login/</url-pattern>
 	</servlet-mapping>
-		<servlet>
+	<servlet>
 	<servlet-name>facebook</servlet-name>
 		<jsp-file>/facebook.jsp</jsp-file>
 		<init-param></init-param>
@@ -45,6 +45,10 @@
  	<servlet-mapping>
 		<servlet-name>facebook</servlet-name>
 		<url-pattern>/facebook/</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+    <servlet-name>jsp</servlet-name>
+    	<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>logout</servlet-name>
