@@ -46,9 +46,22 @@
 		<servlet-name>facebook</servlet-name>
 		<url-pattern>/facebook/</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-    <servlet-name>jsp</servlet-name>
-    	<url-pattern>*.html</url-pattern>
+	<servlet>
+	<servlet-name>signup</servlet-name>
+		<jsp-file>/signup.jsp</jsp-file>
+		<init-param></init-param>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>signup</servlet-name>
+		<url-pattern>/signup/</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>registration</servlet-name>
+		<servlet-class>com.icy_sun.user.RegistrationServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>registration</servlet-name>
+		<url-pattern>/registration/</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>logout</servlet-name>
