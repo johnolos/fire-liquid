@@ -28,64 +28,55 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class RegistrationServlet extends HttpServlet {
+public class AuthorizationServlet extends HttpServlet {
 	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		
+		String email = req.getParameter("email");
+		String password = req.getParameter("password");
+		
+		if(email == null || password == null) {
+			resp.sendRedirect("");
+			return;
+		}
+		
+		if(email.isEmpty() || password.isEmpty()) {
+			resp.sendRedirect("");
+			return;
+		}
+		
+		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
-		String email = req.getParameter("email");
 		Key userKey = KeyFactory.createKey("User", email);
 	    Filter filter = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,FilterOperator.EQUAL,userKey);
 	    Query q = new Query("User").setFilter(filter);
 	    PreparedQuery pq = datastore.prepare(q);
-	    Entity exist = pq.asSingleEntity();
+	    Entity user = pq.asSingleEntity();
+	    
+	    if(user == null) {
+	    	resp.sendRedirect("/successful.jsp?status=loginerror");
+	    	return;
+	    }
+	    
+	    String storedPassword = (String)user.getProperty("password");
+	    
+		MessageDigest messageDigest = null;
+		try {
+			messageDigest = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		messageDigest.update(password.getBytes());
+		String encryptedPassword = new String(messageDigest.digest());
 		
-		if(exist == null) {
-			String password = req.getParameter("password");
-			String confirm_password = req.getParameter("confirm_password");
-			if(!password.equals(confirm_password)) {
-				resp.sendRedirect("/signup/?error=password");
-				return;
-			}
-			MessageDigest messageDigest = null;
-			try {
-				messageDigest = MessageDigest.getInstance("SHA-256");
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			}
-			messageDigest.update(password.getBytes());
-			String encryptedPassword = new String(messageDigest.digest());
-			
-			String firstName = req.getParameter("firstname");
-			String lastName = req.getParameter("lastname");
-			String day = req.getParameter("day");
-			String month = req.getParameter("month");
-			String year = req.getParameter("year");
-			String gender = req.getParameter("gender");
-			SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd");
-			Date birthday = null;
-			try {
-				birthday = formatDate.parse(year+month+day);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			Date creation = new Date();
-			Entity user = new Entity("User", email);
-			user.setProperty("firstname", firstName);
-			user.setProperty("lastname", lastName);
-			user.setProperty("email", email);
-			user.setProperty("birthday", birthday);
-			user.setProperty("creation", creation);
-			user.setProperty("gender", gender);
-			user.setProperty("password", encryptedPassword);
-			datastore.put(user);
-			resp.sendRedirect("/successful.jsp?status=created");
+		if(!storedPassword.equals(encryptedPassword)) {
+			resp.sendRedirect("/successful.jsp?status=loginerror");
 			return;
 		}
-		resp.sendRedirect("/successful.jsp?status=exist");
+		resp.sendRedirect("/successful.jsp?status=login");
 	}
 }

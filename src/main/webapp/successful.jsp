@@ -52,24 +52,41 @@
 
 	<div class="container">
 	<!-- Example row of columns -->
+	<br>
+	<br>
 	<div class="row">
 		<div class="col-md-3">
 		</div>
 		<div class="col-md-6">
 			<%
+			try {
 			String status = request.getParameter("status");
-			if(status.equals("created")) {
-				%>
-				<p>User account created</p>
-				<%
-			} else if(status.equals("exist")) {
-				%>
-				<p>Email entered is in use.</p>
-				<%
-			} else if(status.equals("password")) {
-				%>
-				<p>Passwords entered didn't match.</p>
-				<%
+				if(status.equals("created")) {
+					%>
+				<div class="alert alert-success" role="alert">
+					<strong>Success!</strong> Your account was created. Try logging in.
+				</div>
+					<%
+				} else if(status.equals("exist")) {
+					%>
+				<div class="alert alert-warning" role="alert">
+					<strong>Warning!</strong> Looks like your e-mail is already in use.
+				</div>
+					<%
+				} else if(status.equals("login")) {
+					%>
+				<div class="alert alert-success" role="alert">
+					<strong>Success!</strong> You are now successfully logged in.
+				</div>
+					<%
+				} else if(status.equals("loginerror")) {
+					%>
+				<div class="alert alert-danger" role="alert">
+					<strong>Warning!</strong> The e-mail or password is wrong.
+				</div>
+					<%
+				}
+			} catch(java.lang.NullPointerException e) {
 			}
 			%>
 		</div>

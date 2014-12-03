@@ -36,9 +36,13 @@
           <a class="navbar-brand" href="#">Social media site</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
+            <ul class="nav navbar-nav">
+              <li><a href="http://icy-sun.appspot.com/">Home</a></li>
+              <li class="active"><a href="http://icy-sun.appspot.com/signup/">Sign up</a></li>
+            </ul>
+          <form action="/authorize/" method="post" accept-charset="utf-8" class="navbar-form navbar-right" role="form">
             <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
+              <input type="email" placeholder="E-mail" class="form-control">
             </div>
             <div class="form-group">
               <input type="password" placeholder="Password" class="form-control">
@@ -53,7 +57,9 @@
     <div class="jumbotron">
       <div class="container">
         <h1>Register a new user!</h1>
-        <p>Sign up a new user account today and start a new social media experience today. It is free, simple and easy. Just fill out the sign up form below and hit "create my account" and we are set.</p>
+        <h3>It is free, simple and easy.</h3>
+        <p>Sign up a new user account today and start a new social media experience today.<br>
+            Just fill out the sign up form below and submit.</p>
       </div>
     </div>
 
@@ -63,6 +69,27 @@
         <div class="col-md-3">
         </div>
         <div class="col-md-6">
+            <%
+            try {
+                String error = request.getParameter("error");
+                if(error.equals("password")) {
+                    %>
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error!</strong> Password entered didn't match. Please try again.
+                </div>
+                    <%
+                } else if(error.equals("exist")) {
+                    %>
+                    <p>Email entered is in use.</p>
+                    <%
+                } else if(error.equals("password")) {
+                    %>
+                    <p>Passwords entered didn't match.</p>
+                    <%
+                }
+            } catch(java.lang.NullPointerException e) {
+            }
+            %>
             <form action="/registration/" method="post" accept-charset="utf-8" class="form" role="form">
                 <legend>Sign up form</legend>
                 <div class="row">

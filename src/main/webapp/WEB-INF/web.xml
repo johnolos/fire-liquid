@@ -63,6 +63,14 @@
 		<servlet-name>registration</servlet-name>
 		<url-pattern>/registration/</url-pattern>
 	</servlet-mapping>
+		<servlet>
+		<servlet-name>authorize</servlet-name>
+		<servlet-class>com.icy_sun.user.AuthorizationServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>authorize</servlet-name>
+		<url-pattern>/authorize/</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>logout</servlet-name>
 		<servlet-class>com.icy_sun.user.LogoutServlet</servlet-class>
