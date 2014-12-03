@@ -15,6 +15,7 @@ import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.icy_sun.config.AppConf;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -27,6 +28,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class AuthorizationServlet extends HttpServlet {
 	
@@ -38,15 +40,14 @@ public class AuthorizationServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		
 		if(email == null || password == null) {
-			resp.sendRedirect("");
+			resp.sendRedirect("/successful.jsp?status=loginerror");
 			return;
 		}
 		
 		if(email.isEmpty() || password.isEmpty()) {
-			resp.sendRedirect("");
+			resp.sendRedirect("/successful.jsp?status=loginerror");
 			return;
 		}
-		
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -77,6 +78,8 @@ public class AuthorizationServlet extends HttpServlet {
 			resp.sendRedirect("/successful.jsp?status=loginerror");
 			return;
 		}
+		HttpSession session = req.getSession(false);
+		session.setAttribute(AppConf.USER, email);
 		resp.sendRedirect("/successful.jsp?status=login");
 	}
 }

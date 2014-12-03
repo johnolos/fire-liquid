@@ -40,12 +40,12 @@
               <li><a href="http://icy-sun.appspot.com/">Home</a></li>
               <li class="active"><a href="http://icy-sun.appspot.com/signup/">Sign up</a></li>
             </ul>
-          <form action="/authorize/" method="post" accept-charset="utf-8" class="navbar-form navbar-right" role="form">
+          <form action="/authorize/" method="POST" accept-charset="utf-8" class="navbar-form navbar-right" role="form">
             <div class="form-group">
-              <input type="email" placeholder="E-mail" class="form-control">
+              <input type="text" placeholder="E-mail" id="email" class="form-control">
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
+              <input type="password" placeholder="Password" id="password" class="form-control">
             </div>
             <button type="submit" class="btn btn-success">Sign in</button>
           </form>

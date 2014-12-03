@@ -1,3 +1,6 @@
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="com.icy_sun.config.AppConf" %>
+<%@ page import="java.lang.String" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -33,22 +36,37 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Social media site</a>
+          <a class="navbar-brand" href="">Social media site</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="http://icy-sun.appspot.com/">Home</a></li>
             <li><a href="http://icy-sun.appspot.com/signup/">Sign up</a></li>
           </ul>
-          <form action="/authorize/" method="post" accept-charset="utf-8" class="navbar-form navbar-right" role="form">
+<%
+	HttpSession currentSession = request.getSession(false);
+    String user = (String)currentSession.getAttribute(AppConf.USER);
+    if(currentSession == null || user == null) {
+%>
+          <form action="/authorize/" method="POST" accept-charset="utf-8" class="navbar-form navbar-right" role="form">
             <div class="form-group">
-              <input type="email" placeholder="E-mail" class="form-control">
+              <input type="text" placeholder="E-mail" name="email" class="form-control">
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
+              <input type="password" placeholder="Password" name="password" class="form-control">
             </div>
             <button type="submit" class="btn btn-success">Sign in</button>
           </form>
+<%
+    } else {
+%>
+          <ul class="nav navbar-nav navbar-right">
+            <li>Logged in as <%= user %></li>
+            <li><a href="/logout/"><button type="submit" class="btn btn-success">Log out</button></a></li>
+          </ul>
+<%
+    }
+%>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
