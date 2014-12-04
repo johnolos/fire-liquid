@@ -79,7 +79,8 @@ public class AuthorizationServlet extends HttpServlet {
 			return;
 		}
 		HttpSession session = req.getSession(false);
-		session.setAttribute(AppConf.USER, email);
+		session.setAttribute(AppConf.EMAIL, email);
+		session.setAttribute(AppConf.USER, user);
 		resp.sendRedirect("/successful.jsp?status=login");
 	}
 }

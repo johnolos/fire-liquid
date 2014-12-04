@@ -27,6 +27,10 @@
   </head>
 
   <body>
+<%
+    HttpSession currentSession = request.getSession(false);
+    String email = (String)currentSession.getAttribute(AppConf.EMAIL);
+%>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -41,12 +45,12 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="http://icy-sun.appspot.com/">Home</a></li>
-            <li><a href="http://icy-sun.appspot.com/signup/">Sign up</a></li>
+            <% if(email == null) {%><li><a href="http://icy-sun.appspot.com/signup/">Sign up</a></li> <%}%>
+            <% if(email != null) {%><li><a href="http://icy-sun.appspot.com/profile/">Profile</a></li> <%}%>
+            <% if(email != null) {%><li><a href="http://icy-sun.appspot.com/facebook/">Facebook</a></li> <%}%>
           </ul>
 <%
-	HttpSession currentSession = request.getSession(false);
-    String user = (String)currentSession.getAttribute(AppConf.USER);
-    if(currentSession == null || user == null) {
+    if(email == null) {
 %>
           <form action="/authorize/" method="POST" accept-charset="utf-8" class="navbar-form navbar-right" role="form">
             <div class="form-group">
@@ -60,10 +64,10 @@
 <%
     } else {
 %>
-          <ul class="nav navbar-nav navbar-right">
-            <li>Logged in as <%= user %></li>
-            <li><a href="/logout/"><button type="submit" class="btn btn-success">Log out</button></a></li>
-          </ul>
+          <div class="navbar-form navbar-right">
+            Logged in as <%= email %>
+            <a href="/logout/"><button type="submit" class="btn btn-success">Log out</button></a>
+        </div>
 <%
     }
 %>
