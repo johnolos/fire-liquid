@@ -31,6 +31,14 @@
 		<url-pattern>/facebook/</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>Serve</servlet-name>
+		<servlet-class>com.icy_sun.database.Serve</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>Serve</servlet-name>
+		<url-pattern>/serve</url-pattern>
+	</servlet-mapping>
+	<servlet>
 	<servlet-name>signup</servlet-name>
 		<jsp-file>/signup.jsp</jsp-file>
 		<init-param></init-param>
@@ -47,6 +55,14 @@
  	<servlet-mapping>
 		<servlet-name>signup</servlet-name>
 		<url-pattern>/signup/</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>imageupload</servlet-name>
+		<servlet-class>com.icy_sun.user.ProfileImageServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>imageupload</servlet-name>
+		<url-pattern>/upload/</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>registration</servlet-name>

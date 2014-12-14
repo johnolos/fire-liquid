@@ -5,6 +5,16 @@
 <%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
 <%@ page import="com.google.appengine.api.datastore.Entity" %>
 <%@ page import="com.icy_sun.user.LoginController" %>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService"%>
+<%@ page import="com.google.appengine.api.datastore.DatastoreService"%>
+<%@ page import="com.google.appengine.api.datastore.DatastoreServiceFactory"%>
+<%@ page import="com.google.appengine.api.datastore.FetchOptions" %>
+<%@ page import="com.google.appengine.api.datastore.Entity" %>
+<%@ page import="com.google.appengine.api.datastore.Query"%>
+<%@page import="com.google.appengine.api.datastore.Query.FilterOperator"%>
+<%@page import="com.google.appengine.api.datastore.Query.Filter"%>
+<%@page import="com.google.appengine.api.datastore.Query.FilterPredicate"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +45,7 @@
 <%
     HttpSession currentSession = request.getSession(false);
     MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Entity user = (Entity)syncCache.get(currentSession.getId());
     String email = (String)currentSession.getAttribute(AppConf.EMAIL);
 %>
@@ -94,6 +105,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#home" data-toggle="tab">Profile</a></li>
                 <li><a href="#profile" data-toggle="tab">Password</a></li>
+                <li><a href="#picture" data-toggle="tab">Picture</a></li>
             </ul>
 
             <div id="myTabContent" class="tab-content">
@@ -128,6 +140,25 @@
         	          <button class="btn btn-primary">Update</button>
         	       </div>
     	           </form>
+                </div>
+                <div class="tab-pane fade" id="picture">
+<%
+	String image = "";
+	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Filter filter = new FilterPredicate("User",FilterOperator.EQUAL,user.getKey());
+    Query query = new Query("Images").setFilter(filter);
+    Entity entity = datastore.prepare(query).asSingleEntity();
+    if(entity != null) {
+        image = entity.getProperty("Image").toString();
+        String url = "/serve?blob-key="+image;
+        %><img src="<%=url%>"></img><%
+    }
+%>
+                    <p>Current picture</p>
+                    <form action="<%= blobstoreService.createUploadUrl("/upload/") %>" method="post" enctype="multipart/form-data">
+                            <input type="file" accept="image/*" name="Picture">
+                            <input class="btn btn-primary" type="submit" value="Submit">
+                    </form>
                 </div>
             </div>
             <a href="<%=LoginController.doFacebookLogin()%>"><img src="/img/facebook.png" border="0"/></a>
