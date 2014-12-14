@@ -23,5 +23,4 @@ public class LogoutServlet extends HttpServlet {
 		session.invalidate();
 		res.sendRedirect(AppConf.BASE_URL);
 	}
-
 }

@@ -82,6 +82,7 @@ public class RegistrationServlet extends HttpServlet {
 			user.setProperty("creation", creation);
 			user.setProperty("gender", gender);
 			user.setProperty("password", encryptedPassword);
+			user.setProperty("about", "");
 			datastore.put(user);
 			resp.sendRedirect("/successful.jsp?status=created");
 			return;

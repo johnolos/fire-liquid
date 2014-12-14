@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Social Media Site</title>
+    <title>Icy Sun - Homepage</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +40,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="">Social media site</a>
+          <a class="navbar-brand" href="http://icy-sun.appspot.com/">Icy Sun</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -107,7 +107,7 @@
       <hr>
 
       <footer>
-        <p>&copy; 2014</p>
+        <p>&copy; Icy Sun - 2014</p>
       </footer>
     </div> <!-- /container -->
 

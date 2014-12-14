@@ -35,6 +35,15 @@
 		<jsp-file>/signup.jsp</jsp-file>
 		<init-param></init-param>
 	</servlet>
+	<servlet>
+	<servlet-name>profile</servlet-name>
+		<jsp-file>/profile.jsp</jsp-file>
+		<init-param></init-param>
+	</servlet>
+	 	<servlet-mapping>
+		<servlet-name>profile</servlet-name>
+		<url-pattern>/profile/</url-pattern>
+	</servlet-mapping>
  	<servlet-mapping>
 		<servlet-name>signup</servlet-name>
 		<url-pattern>/signup/</url-pattern>

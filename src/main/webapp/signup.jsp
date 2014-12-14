@@ -8,14 +8,12 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Social Media Site</title>
+    <title>Icy Sun</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="../css/jumbotron.css" rel="stylesheet">
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -33,7 +31,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Social media site</a>
+          <a class="navbar-brand" href="http://icy-sun.appspot.com/">Icy Sun</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -94,6 +92,7 @@
                 <legend>Sign up form</legend>
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
+                        <input type="text" name="username" value="" class="form-control input-lg" placeholder="Username"  />
                         <input type="text" name="firstname" value="" class="form-control input-lg" placeholder="First Name"  />                        </div>
                         <div class="col-xs-6 col-md-6">
                             <input type="text" name="lastname" value="" class="form-control input-lg" placeholder="Last Name"  />                        </div>

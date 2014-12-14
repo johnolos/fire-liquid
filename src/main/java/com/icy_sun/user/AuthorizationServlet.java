@@ -12,6 +12,8 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Email;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -81,6 +83,10 @@ public class AuthorizationServlet extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		session.setAttribute(AppConf.EMAIL, email);
 		session.setAttribute(AppConf.USER, user);
+		
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		syncCache.put(session.getId(), user);
+		
 		resp.sendRedirect("/successful.jsp?status=login");
 	}
 }

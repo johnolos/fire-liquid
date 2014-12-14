@@ -93,7 +93,6 @@ public class FacebookSignInServlet extends HttpServlet {
 		try {
 			user = pq.asSingleEntity();
 		} catch (TooManyResultsException e) {
-			
 		}
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		String memKey = session.getId();

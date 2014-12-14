@@ -14,7 +14,7 @@
 <%
 	HttpSession currentSession = request.getSession();
 	List<Post> posts = FacebookInformation.getFacebookStatueses(currentSession);
-	
+
 	if(!posts.isEmpty()) {
 		for(Post post: posts) {
 			%>
@@ -24,14 +24,14 @@
 			Message <%= post.getMessage() %>
 			Date <%= post.getCreatedTime().toString() %>
 			Picture <%= post.getPicture() %>
-			<% 
+			<%
 			List<Comment> comments = post.getComments().getData();
 			for(Comment comment: comments) {
 				%>
-				
+
 				<div class="facebook" id="Comment">
 				<p>
-				
+
 				ID <%= comment.getId() %>
 				Message <%= comment.getMessage() %>
 				Date <%= comment.getCreatedTime().toString() %>
@@ -42,7 +42,7 @@
 				</div>
 				<%
 			}
-			
+
 			%>
 			</p>
 			</div>
@@ -50,9 +50,9 @@
 		}
 	} else {
 		%>
-		
+
 		<p>No posts gathered from Facebook.</p>
-	
+
 		<%
 	}
 %>
