@@ -161,7 +161,7 @@
                     </form>
                 </div>
             </div>
-            <a href="<%=LoginController.doFacebookLogin()%>"><img src="/img/facebook.png" border="0"/></a>
+            <a href="<%=LoginController.doFacebookLogin(currentSession)%>"><img src="/img/facebook.png" border="0"/></a>
         </div>
 
         <div class="col-xs-3 col-md-3">
