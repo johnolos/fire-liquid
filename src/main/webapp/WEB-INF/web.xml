@@ -48,7 +48,7 @@
 		<jsp-file>/profile.jsp</jsp-file>
 		<init-param></init-param>
 	</servlet>
-	 	<servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>profile</servlet-name>
 		<url-pattern>/profile/</url-pattern>
 	</servlet-mapping>

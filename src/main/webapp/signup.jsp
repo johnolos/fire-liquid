@@ -90,13 +90,14 @@
             %>
             <form action="/registration/" method="post" accept-charset="utf-8" class="form" role="form">
                 <legend>Sign up form</legend>
+                <input type="text" name="username" value="" class="form-control input-lg" placeholder="Username"  />
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
-                        <input type="text" name="username" value="" class="form-control input-lg" placeholder="Username"  />
+
                         <input type="text" name="firstname" value="" class="form-control input-lg" placeholder="First Name"  />                        </div>
                         <div class="col-xs-6 col-md-6">
                             <input type="text" name="lastname" value="" class="form-control input-lg" placeholder="Last Name"  />                        </div>
-                        </div>
+                </div>
                         <input type="text" name="email" value="" class="form-control input-lg" placeholder="Your Email"  /><input type="password" name="password" value="" class="form-control input-lg" placeholder="Password"  /><input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password"  />                    <label>Birth Date</label>                    <div class="row">
                         <div class="col-xs-4 col-md-4">
                             <select name="month" class = "form-control input-lg">

@@ -1,6 +1,14 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="com.icy_sun.config.AppConf" %>
 <%@ page import="java.lang.String" %>
+<%@ page import="com.google.appengine.api.memcache.MemcacheService" %>
+<%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
+<%@ page import="com.google.appengine.api.datastore.Entity" %>
+<%
+    HttpSession currentSession = request.getSession(false);
+    MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+    Entity user = (Entity)syncCache.get(currentSession.getId());
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,10 +35,6 @@
   </head>
 
   <body>
-<%
-    HttpSession currentSession = request.getSession(false);
-    String email = (String)currentSession.getAttribute(AppConf.EMAIL);
-%>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -45,12 +49,12 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="http://icy-sun.appspot.com/">Home</a></li>
-            <% if(email == null) {%><li><a href="http://icy-sun.appspot.com/signup/">Sign up</a></li> <%}%>
-            <% if(email != null) {%><li><a href="http://icy-sun.appspot.com/profile/">Profile</a></li> <%}%>
-            <% if(email != null) {%><li><a href="http://icy-sun.appspot.com/facebook/">Facebook</a></li> <%}%>
+            <% if(user == null) {%><li><a href="http://icy-sun.appspot.com/signup/">Sign up</a></li> <%}%>
+            <% if(user != null) {%><li><a href="http://icy-sun.appspot.com/profile/">Profile</a></li> <%}%>
+            <% if(user != null) {%><li><a href="http://icy-sun.appspot.com/facebook/">Facebook</a></li> <%}%>
           </ul>
 <%
-    if(email == null) {
+    if(user == null) {
 %>
           <form action="/authorize/" method="POST" accept-charset="utf-8" class="navbar-form navbar-right" role="form">
             <div class="form-group">
@@ -65,7 +69,7 @@
     } else {
 %>
           <div class="navbar-form navbar-right">
-            Logged in as <%= email %>
+            Logged in as <%= user.getProperty("email") %>
             <a href="/logout/"><button type="submit" class="btn btn-success">Log out</button></a>
         </div>
 <%

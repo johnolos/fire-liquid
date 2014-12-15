@@ -67,7 +67,7 @@ public class FacebookSignInServlet extends HttpServlet {
 //		Response response = request.send();
 //		req.getSession(false).invalidate();
 		authFacebookLogin(accessToken, req.getSession(true), user);
-		res.sendRedirect(AppConf.BASE_URL+"profile/");
+		res.sendRedirect(AppConf.BASE_URL);
 	}
 
 	private void authFacebookLogin(Token token, HttpSession session, String user) {
@@ -76,17 +76,17 @@ public class FacebookSignInServlet extends HttpServlet {
 //		User facebookUser = facebookClient.fetchObject("me", User.class);
 		// UserService userService = UserServiceFactory.getUserService();
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-//		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		
 //		Connection<Post> fbPost = facebookClient.fetchConnection("me/feed", Post.class);
 		
-//    	Entity user = (Entity)syncCache.get(session.getId());
-		Filter filter = new FilterPredicate("User", FilterOperator.EQUAL, user);
+    	Entity userEntity = (Entity)syncCache.get(user);
+		Filter filter = new FilterPredicate("User", FilterOperator.EQUAL, userEntity.getKey());
 		Query q = new Query("FacebookToken").setFilter(filter);
 		Entity facebookToken = (Entity)datastore.prepare(q).asSingleEntity();
 		if(facebookToken == null) {
 			facebookToken = new Entity("FacebookToken");
-			facebookToken.setProperty("User", user);
+			facebookToken.setProperty("User", userEntity.getKey());
 			facebookToken.setProperty("Token", token.getToken());
 		} else {
 			facebookToken.setProperty("Token", token.getToken());

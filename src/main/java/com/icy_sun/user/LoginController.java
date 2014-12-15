@@ -29,13 +29,13 @@ public class LoginController {
 	
     public static String doFacebookLogin(HttpSession session) {
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
-		Entity user = (Entity)syncCache.get(session.getId());
+//		Entity user = (Entity)syncCache.get(session.getId());
     	
     	OAuthService service = new ServiceBuilder()
     		.provider(FacebookApi.class)
     		.apiKey(AppConf.FACEBOOK_APP_ID)
     		.apiSecret(AppConf.FACEBOOK_SECRET)
-    		.callback("http://www.icy-sun.appspot.com/sign/facebook/?user="+user.getKey())
+    		.callback("http://www.icy-sun.appspot.com/sign/facebook/?user="+session.getId())
     		.scope(AppConf.FACEBOOK_SCOPE)
     		.build();
     	String authUrl = service.getAuthorizationUrl(EMPTY_TOKEN);

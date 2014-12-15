@@ -1,3 +1,15 @@
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="com.icy_sun.config.AppConf" %>
+<%@ page import="java.lang.String" %>
+<%@ page import="com.google.appengine.api.memcache.MemcacheService" %>
+<%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
+<%@ page import="com.google.appengine.api.datastore.Entity" %>
+
+<%
+	HttpSession currentSession = request.getSession(false);
+	MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+	Entity user = (Entity)syncCache.get(currentSession.getId());
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +20,7 @@
 	<meta name="author" content="">
 	<link rel="icon" href="../../favicon.ico">
 
-	<title>Social Media Site</title>
+	<title>Icy Sun</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -33,18 +45,36 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="#">Social media site</a>
+		<a class="navbar-brand" href="http://icy-sun.appspot.com/">Home</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
-		<form class="navbar-form navbar-right" role="form">
-			<div class="form-group">
-			<input type="text" placeholder="Email" class="form-control">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="http://icy-sun.appspot.com/">Home</a></li>
+				<% if(user == null) {%><li><a href="http://icy-sun.appspot.com/signup/">Sign up</a></li> <%}%>
+				<% if(user != null) {%><li><a href="http://icy-sun.appspot.com/profile/">Profile</a></li> <%}%>
+				<% if(user != null) {%><li><a href="http://icy-sun.appspot.com/facebook/">Facebook</a></li> <%}%>
+			</ul>
+<%
+if(user == null) {
+%>
+			<form action="/authorize/" method="POST" accept-charset="utf-8" class="navbar-form navbar-right" role="form">
+				<div class="form-group">
+					<input type="text" placeholder="E-mail" name="email" class="form-control">
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="Password" name="password" class="form-control">
+				</div>
+				<button type="submit" class="btn btn-success">Sign in</button>
+			</form>
+<%
+} else {
+%>
+			<div class="navbar-form navbar-right">Logged in as <%= user.getProperty("email") %>
+			<a href="/logout/"><button type="submit" class="btn btn-success">Log out</button></a>
 			</div>
-			<div class="form-group">
-			<input type="password" placeholder="Password" class="form-control">
-			</div>
-			<button type="submit" class="btn btn-success">Sign in</button>
-		</form>
+<%
+}
+%>
 		</div><!--/.navbar-collapse -->
 	</div>
 	</nav>

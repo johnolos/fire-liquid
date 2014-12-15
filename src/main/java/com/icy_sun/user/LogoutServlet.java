@@ -18,8 +18,6 @@ public class LogoutServlet extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		syncCache.delete(session.getId());
-		session.setAttribute(AppConf.EMAIL, null);
-		session.setAttribute(AppConf.USER, null);
 		session.invalidate();
 		res.sendRedirect(AppConf.BASE_URL);
 	}

@@ -54,7 +54,6 @@ public class ProfileImageServlet extends HttpServlet {
         		blobs.remove(entity.getProperty("Image"));
         		entity.setProperty("Image", blobKey.getKeyString());
         	}
-        	
 			datastore.put(entity);
 			res.sendRedirect("/profile/");
         }

@@ -86,7 +86,6 @@ public class AuthorizationServlet extends HttpServlet {
 		
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		syncCache.put(session.getId(), user);
-		
 		resp.sendRedirect("/successful.jsp?status=login");
 	}
 }
