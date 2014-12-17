@@ -118,66 +118,109 @@
                         <label>Username</label>
                         <input type="text" name"username" value="" class="form-control input-lg">
                         -->
+                        <br>
+                        <br>
                         <label>First Name</label>
+                        <br>
                         <input type="text" name="firstname" value="<%=user.getProperty("firstname")%>" class="form-control input-lg">
+                        <br>
+                        <br>
                         <label>Last Name</label>
+                        <br>
                         <input type="text" name="lastname" value="<%=user.getProperty("lastname")%>" class="form-control input-lg">
+                        <br>
+                        <br>
                         <label>Email</label>
+                        <br>
                         <input type="text" name="email" value="<%=user.getProperty("email")%>" class="form-control input-lg">
+                        <br>
+                        <br>
                         <label>About</label>
+                        <br>
                         <textarea value="" name="about" rows="3" class="form-control input-lg"><%=user.getProperty("about")==null?"":user.getProperty("about")%></textarea>
-          	            <label>Enter password to confirm</label>
+          	            <br>
+                        <br>
+                        <label>Enter password to confirm</label>
+                        <br>
                         <input type="password" name="password" class="form-control input-lg">
                         <div>
+                        <br>
         	            <button class="btn btn-primary">Update</button>
         	            </div>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="profile">
+                    <br>
+                    <br>
     	           <form id="tab2" action="/password/" method="POST">
         	       <label>Old Password</label>
+                   <br>
         	       <input type="password" name="old_password" class="form-control input-lg">
+                    <br>
                    <label>New Password</label>
+                    <br>
                    <input type="password" name="new_password_1" class="form-control input-lg">
+                    <br>
                    <label>Repeat New Password</label>
+                    <br>
                    <input type="password" name="new_password_2" class="form-control input-lg">
+                    <br>
         	       <div>
         	          <button class="btn btn-primary">Update</button>
         	       </div>
     	           </form>
                 </div>
                 <div class="tab-pane fade" id="facebook">
+                    <br>
+                    <br>
                     <div class="row">
                     <label>Give Icy Sun access to your Facebook account:</label>
-                    <a class="btn btn-primary" href="<%=FacebookController.doFacebookLogin(currentSession)%>">Do it</a>
                     </div>
+                    <br>
+                    <a class="btn btn-primary" href="<%=FacebookController.doFacebookLogin(currentSession)%>">Grant access</a>
+                    <br>
+                    <br>
                     <div class="row">
-                    <label>Get the newest statuse I have made:</label>
+                    <label>Get the newest statuses:</label>
+                    <br>
+                    </div>
                     <form action="/facebookaction/" method="POST" id="tab3">
                         <input type="hidden" name="action" value="update">
-                        <button class="btn btn-primary">Do it</button>
+                        <button class="btn btn-primary">Get statuses</button>
                     </form>
-                    </div>
+                    <br>
+                    <br>
                     <div class="row">
+                    <label>Post a message on your facebook wall about Icy-sun (or not)</label>
+                    <br>
+                    </div>
                     <form action="/facebookaction/" method="POST" id="tab4">
                         <input type="text" name="message" value="Check out http://www.icy-sun.appspot.com/" class="form-control input-lg">
                         <input type="hidden" name="action" value="post">
-                        <button class="btn btn-primary">Do it</button>
+                        <br>
+                        <button class="btn btn-primary">Post</button>
                     </form>
-                    </div>
                 </div>
                 <div class="tab-pane fade" id="twitter">
+                    <br>
+                    <br>
                     <div class="row">
                     <label>Give Icy Sun access to your Twitter account:</label>
+                    <br>
+                    <br>
                     <form action="/twittertoken/" method="GET" id="tab5">
-                        <button class="btn btn-primary">Do it</button>
+                        <button class="btn btn-primary">Grant access</button>
                     </form>
                     </div>
+                    <br>
                     <div class="row">
+                    <br>
+                    <label>Post a tweet on your twitter account:</label>
                     <form action="/twitteraction/" method="POST" id="tab6">
                         <input type="text" name="message" value="Check out http://www.icy-sun.appspot.com/" class="form-control input-lg">
                         <input type="hidden" name="action" value="post">
-                        <button class="btn btn-primary">Tweet it</button>
+                        <br>
+                        <button class="btn btn-primary">Tweet</button>
                     </form>
                     </div>
                 </div>
@@ -192,13 +235,16 @@
         image = entity.getProperty("Image").toString();
         String url = "/serve?blob-key="+image;
         %>
+        <br>
         <img src="<%=url%>" align="middle" height="500" width="500"></img>
+        <br>
         <p>Current picture</p>
         <%
     }
 %>
                     <form action="<%= blobstoreService.createUploadUrl("/upload/") %>" method="post" enctype="multipart/form-data">
                             <input type="file" accept="image/*" name="Picture">
+                            <br>
                             <input class="btn btn-primary" type="submit" value="Submit">
                     </form>
                 </div>

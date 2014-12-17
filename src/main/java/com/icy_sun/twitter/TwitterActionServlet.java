@@ -34,6 +34,11 @@ public class TwitterActionServlet extends HttpServlet {
         	// Find user and get message parameter
         	Entity user = AuthorizationServlet.getUser(req.getSession());
         	String message = req.getParameter("message");
+        	// Make sure user actually typed something to publish.
+        	if(message == null) {
+        		resp.sendRedirect("/success/?status=tweeterror");
+        	}
+        	if(message.equals("")) return;
         	// Get twitter instance with user token
         	Twitter twitter = TwitterServlet.getTwitter(user);
         	try {

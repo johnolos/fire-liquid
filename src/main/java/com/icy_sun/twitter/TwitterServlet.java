@@ -26,9 +26,14 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * TwitterServlet.
+ * Handles GET Action 
+ * @author exxon
+ *
+ */
 public class TwitterServlet  extends HttpServlet {
     
-
     /**
  	 * LogInServlet - Handles GET request for Twitter Authentication. 
  	 */
@@ -39,13 +44,12 @@ public class TwitterServlet  extends HttpServlet {
         	// Build callback URL. Needs to match settings in Twitter Application Settings
         	String session = req.getSession().getId();
         	String callbackURL = AppConf.BASE_URL + "sign/twitter/?session=" + session;
-//            StringBuffer callbackURL = req.getRequestURL();
-//            int index = callbackURL.lastIndexOf("/");
-//            callbackURL.replace(index, callbackURL.length(), "").append("/sign/twitter/?session="+session);
-                        
+
+        	// Get RequestToken and put it in memcache for use when receieving the callback
             RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL);
             MemcacheService synCache = MemcacheServiceFactory.getMemcacheService();
             synCache.put("Twitter"+session, requestToken);
+            // Send the user over at the twitter
             resp.sendRedirect(requestToken.getAuthenticationURL());
         } catch (TwitterException e) {
             throw new ServletException(e);

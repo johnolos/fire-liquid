@@ -28,6 +28,11 @@ import com.restfb.types.FacebookType;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
+/**
+ * FacebookInformation class to do various tasks with retrieving Token
+ * from datastore, updating facebook statuses stored in the data store.
+ *
+ */
 public class FacebookInformation {
 	
 	public static String getToken(HttpSession session, Entity user, DatastoreService datastore) {

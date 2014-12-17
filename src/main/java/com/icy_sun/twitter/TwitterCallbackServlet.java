@@ -70,7 +70,7 @@ public class TwitterCallbackServlet extends HttpServlet {
         }
         // Clean up memcache after using it.
         synCache.delete("Twitter"+session);
-        
+        // Give feedback to user
         resp.sendRedirect("/success/?status=twitter");
     }
 }
