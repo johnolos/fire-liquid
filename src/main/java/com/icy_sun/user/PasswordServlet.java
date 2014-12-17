@@ -12,6 +12,9 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Email;
+import com.google.appengine.api.files.dev.Session;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -50,74 +53,35 @@ public class PasswordServlet extends HttpServlet {
 			return;
 		}
 		
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
+		// Authenticate user
+		boolean authenticate = AuthorizationServlet.authenticateUser(oldPassword, req.getSession());
 		
-		// Getting the email from input parameters to
-		// validate that the e-mail is not in use.
-		String email = req.getParameter("email");
-		Key userKey = KeyFactory.createKey("User", email);
-	    Filter filter = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,FilterOperator.EQUAL,userKey);
-	    Query q = new Query("User").setFilter(filter);
-	    PreparedQuery pq = datastore.prepare(q);
-	    Entity exist = pq.asSingleEntity();
-		
-	    //  There exist no user with the input e-mail. Go ahead to create profile.
-		if(exist == null) {
-			// Check that user entered same password twice.
-			String password = req.getParameter("password");
-			String confirm_password = req.getParameter("confirm_password");
-			if(!password.equals(confirm_password)) {
-				// Password was not the same. Give feedback back to user.
-				resp.sendRedirect("/signup/?error=password");
-				return;
-			}
-			// Encrypt the password to store in the datastore.
+		// Continue if user is authenticated
+		if(authenticate) {
 			MessageDigest messageDigest = null;
 			try {
 				messageDigest = MessageDigest.getInstance("SHA-256");
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
-			messageDigest.update(password.getBytes());
+			messageDigest.update(newPassword_1.getBytes());
 			String encryptedPassword = new String(messageDigest.digest());
 			
-			// Get rest of the parameters to create the account.
-			String firstName = req.getParameter("firstname");
-			String lastName = req.getParameter("lastname");
-			String day = req.getParameter("day");
-			String month = req.getParameter("month");
-			String year = req.getParameter("year");
-			String gender = req.getParameter("gender");
-			SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd");
-			Date birthday = null;
-			try {
-				birthday = formatDate.parse(year+month+day);
-			} catch (ParseException e) {
-				e.printStackTrace();
+			Entity user = AuthorizationServlet.getUser(req.getSession());
+			if(user == null) {
+				resp.sendRedirect("/success/?status=updateerror");
+				return;
 			}
-			Date creation = new Date();
-			
-			// Create the user entity with the information entered.
-			Entity user = new Entity("User", email);
-			user.setProperty("firstname", firstName);
-			user.setProperty("lastname", lastName);
-			user.setProperty("email", email);
-			user.setProperty("birthday", birthday);
-			user.setProperty("creation", creation);
-			user.setProperty("gender", gender);
 			user.setProperty("password", encryptedPassword);
-			// The user can update this later on in user profile.
-			user.setProperty("about", "");
-			
-			// Put the user in datastore.
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 			datastore.put(user);
-			
-			// Send redirect for the user to give feedback.
-			resp.sendRedirect("/success/?status=created");
+			MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+			syncCache.delete(req.getSession().getId());
+			req.getSession().invalidate();
+			resp.sendRedirect("/success/?status=password");
 			return;
 		}
-		// Give feedback that a user for entered email exist
-		resp.sendRedirect("/success/?status=exist");
+		resp.sendRedirect("/success/?status=updateerror");
 	}
+	
 }

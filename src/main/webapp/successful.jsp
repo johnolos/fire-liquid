@@ -133,6 +133,12 @@ if(user == null) {
 					<strong>Success!</strong> Your statuses was fetched from facebook.
 				</div>
 					<%
+				} else if(status.equals("password")) {
+					%>
+				<div class="alert alert-success" role="alert">
+					<strong>Success!</strong> Your password was changed. Please log in to continue.
+				</div>
+					<%
 				} else if(status.equals("updateerror")) {
 					%>
 				<div class="alert alert-danger" role="alert">

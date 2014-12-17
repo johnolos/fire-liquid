@@ -81,7 +81,15 @@
 		<servlet-name>UserEnqueue</servlet-name>
 		<url-pattern>/userenqueue/</url-pattern>
 	</servlet-mapping>
-		<servlet>
+	<servlet>
+		<servlet-name>PasswordServlet</servlet-name>
+		<servlet-class>com.icy_sun.user.PasswordServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>PasswordServlet</servlet-name>
+		<url-pattern>/password/</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>UserWorker</servlet-name>
 		<servlet-class>com.icy_sun.user.UserWorker</servlet-class>
 	</servlet>
