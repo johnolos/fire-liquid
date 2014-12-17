@@ -52,6 +52,14 @@
 		<servlet-name>profile</servlet-name>
 		<url-pattern>/profile/</url-pattern>
 	</servlet-mapping>
+	<servlet-name>success</servlet-name>
+		<jsp-file>/successful.jsp</jsp-file>
+		<init-param></init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>success</servlet-name>
+		<url-pattern>/success/</url-pattern>
+	</servlet-mapping>
  	<servlet-mapping>
 		<servlet-name>signup</servlet-name>
 		<url-pattern>/signup/</url-pattern>
@@ -63,6 +71,22 @@
  	<servlet-mapping>
 		<servlet-name>imageupload</servlet-name>
 		<url-pattern>/upload/</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>UserEnqueue</servlet-name>
+		<servlet-class>com.icy_sun.user.UserEnqueue</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>UserEnqueue</servlet-name>
+		<url-pattern>/userenqueue/</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>UserWorker</servlet-name>
+		<servlet-class>com.icy_sun.user.UserWorker</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>UserWorker</servlet-name>
+		<url-pattern>/userworker/</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>registration</servlet-name>

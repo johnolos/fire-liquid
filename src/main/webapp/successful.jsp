@@ -115,6 +115,18 @@ if(user == null) {
 					<strong>Warning!</strong> The e-mail or password is wrong.
 				</div>
 					<%
+				} else if(status.equals("update")) {
+					%>
+				<div class="alert alert-success" role="alert">
+					<strong>Success!</strong> Your profile will be updated shortly.
+				</div>
+					<%
+				} else if(status.equals("updateerror")) {
+					%>
+				<div class="alert alert-danger" role="alert">
+					<strong>Warning!</strong> Profile not updated due to wrong password.
+				</div>
+					<%
 				}
 			} catch(java.lang.NullPointerException e) {
 			}

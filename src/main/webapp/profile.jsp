@@ -109,9 +109,11 @@
 
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane active in" id="home">
-                    <form id="tab">
+                    <form action="/userenqueue/" method="post" id="tab">
+                        <!--
                         <label>Username</label>
                         <input type="text" name"username" value="" class="form-control input-lg">
+                        -->
                         <label>First Name</label>
                         <input type="text" name="firstname" value="<%=user.getProperty("firstname")%>" class="form-control input-lg">
                         <label>Last Name</label>
@@ -119,7 +121,7 @@
                         <label>Email</label>
                         <input type="text" name="email" value="<%=user.getProperty("email")%>" class="form-control input-lg">
                         <label>About</label>
-                        <textarea value="Smith" name="about" rows="3" class="form-control input-lg"><%=user.getProperty("about")==null?"":user.getProperty("about")%></textarea>
+                        <textarea value="" name="about" rows="3" class="form-control input-lg"><%=user.getProperty("about")==null?"":user.getProperty("about")%></textarea>
           	            <label>Enter password to confirm</label>
                         <input type="password" name="password" class="form-control input-lg">
                         <div>

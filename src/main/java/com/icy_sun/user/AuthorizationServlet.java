@@ -88,4 +88,25 @@ public class AuthorizationServlet extends HttpServlet {
 		syncCache.put(session.getId(), user);
 		resp.sendRedirect("/successful.jsp?status=login");
 	}
+	
+	protected static boolean authenticateUser(String password, HttpSession session) {
+		
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		Entity user = (Entity)syncCache.get(session.getId());
+		if(user == null)
+			return false;
+		String storedPassword = (String)user.getProperty("password");
+		MessageDigest messageDigest = null;
+		try {
+			messageDigest = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		messageDigest.update(password.getBytes());
+		String encryptedPassword = new String(messageDigest.digest());
+		if(storedPassword.equals(encryptedPassword)) {
+			return true;
+		}
+		return false;
+	}
 }
