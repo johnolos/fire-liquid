@@ -132,8 +132,12 @@ public class AuthorizationServlet extends HttpServlet {
 	}
 	
 	public static Entity getUser(HttpSession session) {
+		return getUser(session.getId());
+	}
+	
+	public static Entity getUser(String session) {
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
-		return (Entity)syncCache.get(session.getId());
+		return (Entity)syncCache.get(session);
 	}
 	
 }

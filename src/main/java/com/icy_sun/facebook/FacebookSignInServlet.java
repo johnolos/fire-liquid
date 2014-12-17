@@ -2,20 +2,12 @@ package com.icy_sun.facebook;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.FacebookApi;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
 import org.scribe.model.Token;
-import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -23,21 +15,16 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.icy_sun.config.AppConf;
-import com.restfb.Connection;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
-import com.restfb.types.Post;
-import com.restfb.types.User;
-
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+/**
+ * FacebookSignInServlet - Handles callback from Facebook
+ *
+ */
 public class FacebookSignInServlet extends HttpServlet {
 
 	/** Just a value Scribe needs with Facebook token requests. */
@@ -49,10 +36,7 @@ public class FacebookSignInServlet extends HttpServlet {
 	 */
 	public void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		// Handle this
-		// &display=popup
-		// ?error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied#_=_
-		
+	
 		// Get parameters given with the callback.
 		String user = req.getParameter("user");
 		String code = req.getParameter("code");

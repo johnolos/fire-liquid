@@ -108,6 +108,7 @@
                 <li><a href="#profile" data-toggle="tab">Password</a></li>
                 <li><a href="#picture" data-toggle="tab">Picture</a></li>
                 <li><a href="#facebook" data-toggle="tab">Facebook</a></li>
+                <li><a href="#twitter" data-toggle="tab">Twitter</a></li>
             </ul>
 
             <div id="myTabContent" class="tab-content">
@@ -162,6 +163,21 @@
                         <input type="text" name="message" value="Check out http://www.icy-sun.appspot.com/" class="form-control input-lg">
                         <input type="hidden" name="action" value="post">
                         <button class="btn btn-primary">Do it</button>
+                    </form>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="twitter">
+                    <div class="row">
+                    <label>Give Icy Sun access to your Twitter account:</label>
+                    <form action="/sign/twitter/" method="GET" id="tab5">
+                        <button class="btn btn-primary">Do it</button>
+                    </form>
+                    </div>
+                    <div class="row">
+                    <form action="/twitteraction/" method="POST" id="tab6">
+                        <input type="text" name="message" value="Check out http://www.icy-sun.appspot.com/" class="form-control input-lg">
+                        <input type="hidden" name="action" value="post">
+                        <button class="btn btn-primary">Tweet it</button>
                     </form>
                     </div>
                 </div>

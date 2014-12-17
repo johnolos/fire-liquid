@@ -32,6 +32,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * FacebookActionServlet - Handles action that shall be taken
+ * towards Facebook Graph Api.
+ *
+ */
 public class FacebookActionServlet extends HttpServlet {
 	
 	/**
@@ -97,10 +102,11 @@ public class FacebookActionServlet extends HttpServlet {
 				datastore.put(entity);
 				counter++;
 			}
-			
+			// Redirect for user feedback
 			resp.sendRedirect("/success/?status=postupdate");
 			return;
 		}
+		// Redirect for user feedback
 		resp.sendRedirect("/success/?status=posterror");
 	}
 	

@@ -114,6 +114,30 @@
 		<url-pattern>/facebookaction/</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>TwitterServlet</servlet-name>
+		<servlet-class>com.icy_sun.twitter.TwitterServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>TwitterServlet</servlet-name>
+		<url-pattern>/twittertoken/</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>TwitterActionServlet</servlet-name>
+		<servlet-class>com.icy_sun.twitter.TwitterActionServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>TwitterActionServlet</servlet-name>
+		<url-pattern>/twitteraction/</url-pattern>
+	</servlet-mapping>
+		<servlet>
+		<servlet-name>TwitterCallbackServlet</servlet-name>
+		<servlet-class>com.icy_sun.twitter.TwitterCallbackServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>TwitterCallbackServlet</servlet-name>
+		<url-pattern>/sign/twitter/</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Authorization</servlet-name>
 		<servlet-class>com.icy_sun.user.AuthorizationServlet</servlet-class>
 	</servlet>

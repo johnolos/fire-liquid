@@ -22,10 +22,6 @@ public class FacebookController {
 	private static final Token EMPTY_TOKEN = null;
 	private static final boolean POPUP = false;
 	
-	public static String doFacebookLogin() {
-		return "";
-	}
-	
 	
     public static String doFacebookLogin(HttpSession session) {
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
