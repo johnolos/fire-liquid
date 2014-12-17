@@ -6,7 +6,7 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
 	<servlet>
 		<servlet-name>FacebookSignInServlet</servlet-name>
-		<servlet-class>com.icy_sun.user.FacebookSignInServlet</servlet-class>
+		<servlet-class>com.icy_sun.facebook.FacebookSignInServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>FacebookSignInServlet</servlet-name>
@@ -52,6 +52,7 @@
 		<servlet-name>profile</servlet-name>
 		<url-pattern>/profile/</url-pattern>
 	</servlet-mapping>
+	<servlet>
 	<servlet-name>success</servlet-name>
 		<jsp-file>/successful.jsp</jsp-file>
 		<init-param></init-param>
@@ -96,7 +97,15 @@
 		<servlet-name>registration</servlet-name>
 		<url-pattern>/registration/</url-pattern>
 	</servlet-mapping>
-		<servlet>
+	<servlet>
+		<servlet-name>FacebookActionServlet</servlet-name>
+		<servlet-class>com.icy_sun.facebook.FacebookActionServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>FacebookActionServlet</servlet-name>
+		<url-pattern>/facebookaction/</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Authorization</servlet-name>
 		<servlet-class>com.icy_sun.user.AuthorizationServlet</servlet-class>
 	</servlet>

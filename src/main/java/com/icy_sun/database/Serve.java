@@ -12,10 +12,13 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class Serve extends HttpServlet {
 
+	/**
+	 * GET handler for Serve Servlet. It fetches the blob given the blob-key.
+	 * In this application only image blobs are present.
+	 */
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws IOException {
-		
 		BlobstoreService blobstoreService = BlobstoreServiceFactory
 				.getBlobstoreService();
 		BlobKey blobKey = new BlobKey(req.getParameter("blob-key"));

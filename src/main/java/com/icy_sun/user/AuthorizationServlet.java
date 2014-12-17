@@ -34,39 +34,53 @@ import javax.servlet.http.HttpSession;
 
 public class AuthorizationServlet extends HttpServlet {
 	
+	/**
+	 * Handle post request for Authorization of User.
+	 * Checks if there exists a user with given email,
+	 * if password is correct and give appropriate
+	 * redirects for the various cases.
+	 */
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		
+		// Get POST parameters
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		
+		// Just to cover all the bases of exeption handeling.
 		if(email == null || password == null) {
-			resp.sendRedirect("/successful.jsp?status=loginerror");
+			resp.sendRedirect("/success/?status=loginerror");
 			return;
 		}
 		
+		// Likely scenario the user forgets to enter 
+		// his password or email or both.
 		if(email.isEmpty() || password.isEmpty()) {
-			resp.sendRedirect("/successful.jsp?status=loginerror");
+			resp.sendRedirect("/success/?status=loginerror");
 			return;
 		}
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
+		// Create key and check for user in datastore
 		Key userKey = KeyFactory.createKey("User", email);
 	    Filter filter = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,FilterOperator.EQUAL,userKey);
 	    Query q = new Query("User").setFilter(filter);
 	    PreparedQuery pq = datastore.prepare(q);
 	    Entity user = pq.asSingleEntity();
 	    
+	    // No user found with entered email.
 	    if(user == null) {
-	    	resp.sendRedirect("/successful.jsp?status=loginerror");
+	    	resp.sendRedirect("/success/?status=loginerror");
 	    	return;
 	    }
 	    
+	    // Encrypt the input of user and compare to the stored
+	    // encrypted password. Don't accept authentication if the
+	    // passwords do not match up.
 	    String storedPassword = (String)user.getProperty("password");
-	    
 		MessageDigest messageDigest = null;
 		try {
 			messageDigest = MessageDigest.getInstance("SHA-256");
@@ -75,22 +89,29 @@ public class AuthorizationServlet extends HttpServlet {
 		}
 		messageDigest.update(password.getBytes());
 		String encryptedPassword = new String(messageDigest.digest());
-		
 		if(!storedPassword.equals(encryptedPassword)) {
-			resp.sendRedirect("/successful.jsp?status=loginerror");
+			resp.sendRedirect("/success/?status=loginerror");
 			return;
 		}
 		HttpSession session = req.getSession(false);
-		session.setAttribute(AppConf.EMAIL, email);
-		session.setAttribute(AppConf.USER, user);
 		
+//		session.setAttribute(AppConf.EMAIL, email);
+//		session.setAttribute(AppConf.USER, user);
+		
+		// Put user object in memcache as this is used to determine
+		// if the user is logged in.
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		syncCache.put(session.getId(), user);
-		resp.sendRedirect("/successful.jsp?status=login");
+		resp.sendRedirect("/success/?status=login");
 	}
 	
+	/**
+	 * Authenticate user based on password input and HttpSession.
+	 * @param password String password
+	 * @param session HttpSession
+	 * @return Boolean value if user was authenticated.
+	 */
 	protected static boolean authenticateUser(String password, HttpSession session) {
-		
 		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
 		Entity user = (Entity)syncCache.get(session.getId());
 		if(user == null)
@@ -109,4 +130,10 @@ public class AuthorizationServlet extends HttpServlet {
 		}
 		return false;
 	}
+	
+	public static Entity getUser(HttpSession session) {
+		MemcacheService syncCache = MemcacheServiceFactory.getMemcacheService();
+		return (Entity)syncCache.get(session.getId());
+	}
+	
 }

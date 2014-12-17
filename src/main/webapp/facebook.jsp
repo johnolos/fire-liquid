@@ -1,5 +1,5 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page import="com.icy_sun.user.FacebookInformation" %>
+<%@ page import="com.icy_sun.facebook.FacebookInformation" %>
 <%@ page import="com.google.appengine.api.memcache.MemcacheService" %>
 <%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
 <%@ page import="com.google.appengine.api.datastore.DatastoreService"%>

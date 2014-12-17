@@ -1,4 +1,4 @@
-<%@ page import="com.icy_sun.user.LoginController" %>
+<%@ page import="com.icy_sun.facebook.FacebookController" %>
 <html>
 <head>
 <script>
@@ -12,6 +12,6 @@ var targetWin = window.open (pageURL, title, 'toolbar=no, location=no, directori
 <body>
 <jsp:include page="./navigation/navigation.jsp" />
 <p>Log into Facebook below by clicking on it! </p>
-<a href="<%= LoginController.doFacebookLogin(request.getSession(false)) %>"><img src="/img/facebook.png" border="0"/></a>
+<a href="<%=FacebookController.doFacebookLogin(request.getSession(false))%>"><img src="/img/facebook.png" border="0"/></a>
 </body>
 </html>

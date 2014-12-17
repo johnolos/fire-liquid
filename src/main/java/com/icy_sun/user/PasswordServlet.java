@@ -21,14 +21,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class RegistrationServlet extends HttpServlet {
+public class PasswordServlet extends HttpServlet {
 	
 	/**
 	 * Handle post request for new user registration.
@@ -36,6 +35,20 @@ public class RegistrationServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
+		
+		String oldPassword = req.getParameter("old_password");
+		String newPassword_1 = req.getParameter("new_password_1");
+		String newPassword_2 = req.getParameter("new_password_2");
+		
+		if(oldPassword == null || newPassword_1 == null || newPassword_2 == null) {
+			resp.sendRedirect("/success/?status=updateerror");
+			return;
+		}
+		
+		if(!newPassword_1.equals(newPassword_2)) {
+			resp.sendRedirect("/success/?status=updateerror");
+			return;
+		}
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();

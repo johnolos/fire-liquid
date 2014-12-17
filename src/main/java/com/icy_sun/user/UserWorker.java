@@ -14,6 +14,10 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
 public class UserWorker extends HttpServlet {
 	
+	/**
+	 * UserWorker Servlet. It receives queued tasks from UserEnqueue in a POST
+	 * invocation. It takes the parameters and updates the user in datastore.
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		
 		// This worker is only called when user is authenticated.

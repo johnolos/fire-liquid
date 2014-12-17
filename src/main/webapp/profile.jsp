@@ -4,7 +4,9 @@
 <%@ page import="com.google.appengine.api.memcache.MemcacheService" %>
 <%@ page import="com.google.appengine.api.memcache.MemcacheServiceFactory" %>
 <%@ page import="com.google.appengine.api.datastore.Entity" %>
-<%@ page import="com.icy_sun.user.LoginController" %>
+<%@ page import="com.icy_sun.facebook.FacebookController" %>
+<%@ page import="com.icy_sun.facebook.FacebookInformation" %>
+<%@ page import="com.icy_sun.facebook.FacebookActionServlet" %>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService"%>
 <%@ page import="com.google.appengine.api.datastore.DatastoreService"%>
@@ -105,6 +107,7 @@
                 <li class="active"><a href="#home" data-toggle="tab">Profile</a></li>
                 <li><a href="#profile" data-toggle="tab">Password</a></li>
                 <li><a href="#picture" data-toggle="tab">Picture</a></li>
+                <li><a href="#facebook" data-toggle="tab">Facebook</a></li>
             </ul>
 
             <div id="myTabContent" class="tab-content">
@@ -130,7 +133,7 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="profile">
-    	           <form id="tab2">
+    	           <form id="tab2" action="/password/" method="POST">
         	       <label>Old Password</label>
         	       <input type="password" name="old_password" class="form-control input-lg">
                    <label>New Password</label>
@@ -142,6 +145,26 @@
         	       </div>
     	           </form>
                 </div>
+                <div class="tab-pane fade" id="facebook">
+                    <div class="row">
+                    <label>Give Icy Sun access to your Facebook account:</label>
+                    <a class="btn btn-primary" href="<%=FacebookController.doFacebookLogin(currentSession)%>">Do it</a>
+                    </div>
+                    <div class="row">
+                    <label>Get the newest statuse I have made:</label>
+                    <form action="/facebookaction/" method="POST" id="tab3">
+                        <input type="hidden" name="action" value="update">
+                        <button class="btn btn-primary">Do it</button>
+                    </form>
+                    </div>
+                    <div class="row">
+                    <form action="/facebookaction/" method="POST" id="tab4">
+                        <input type="text" name="message" value="Check out http://www.icy-sun.appspot.com/" class="form-control input-lg">
+                        <input type="hidden" name="action" value="post">
+                        <button class="btn btn-primary">Do it</button>
+                    </form>
+                    </div>
+                </div>
                 <div class="tab-pane fade" id="picture">
 <%
 	String image = "";
@@ -152,17 +175,18 @@
     if(entity != null) {
         image = entity.getProperty("Image").toString();
         String url = "/serve?blob-key="+image;
-        %><img src="<%=url%>" align="middle" height="500" width="500"></img><%
+        %>
+        <img src="<%=url%>" align="middle" height="500" width="500"></img>
+        <p>Current picture</p>
+        <%
     }
 %>
-                    <p>Current picture</p>
                     <form action="<%= blobstoreService.createUploadUrl("/upload/") %>" method="post" enctype="multipart/form-data">
                             <input type="file" accept="image/*" name="Picture">
                             <input class="btn btn-primary" type="submit" value="Submit">
                     </form>
                 </div>
             </div>
-            <a href="<%=LoginController.doFacebookLogin(currentSession)%>"><img src="/img/facebook.png" border="0"/></a>
         </div>
 
         <div class="col-xs-3 col-md-3">

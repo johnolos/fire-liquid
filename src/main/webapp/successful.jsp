@@ -121,10 +121,28 @@ if(user == null) {
 					<strong>Success!</strong> Your profile will be updated shortly.
 				</div>
 					<%
+				} else if(status.equals("post")) {
+					%>
+				<div class="alert alert-success" role="alert">
+					<strong>Success!</strong> Your message was posted on facebook.
+				</div>
+					<%
+				} else if(status.equals("postupdate")) {
+					%>
+				<div class="alert alert-success" role="alert">
+					<strong>Success!</strong> Your statuses was fetched from facebook.
+				</div>
+					<%
 				} else if(status.equals("updateerror")) {
 					%>
 				<div class="alert alert-danger" role="alert">
-					<strong>Warning!</strong> Profile not updated due to wrong password.
+					<strong>Warning!</strong> Profile not updated due to wrong password or not matching password inputs.
+				</div>
+					<%
+				}else if(status.equals("posterror")) {
+					%>
+				<div class="alert alert-danger" role="alert">
+					<strong>Warning!</strong> Your facebook action did not go through. Please authenticate facebook once again.
 				</div>
 					<%
 				}

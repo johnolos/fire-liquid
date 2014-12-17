@@ -1,4 +1,4 @@
-package com.icy_sun.user;
+package com.icy_sun.facebook;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +16,7 @@ import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.icy_sun.config.AppConf;
 
-public class LoginController {
+public class FacebookController {
 	
 	private static final String PROTECTED_FACEBOOK_URL = "https://graph.facebook.com/me";
 	private static final Token EMPTY_TOKEN = null;
