@@ -169,7 +169,7 @@
                 <div class="tab-pane fade" id="twitter">
                     <div class="row">
                     <label>Give Icy Sun access to your Twitter account:</label>
-                    <form action="/sign/twitter/" method="GET" id="tab5">
+                    <form action="/twittertoken/" method="GET" id="tab5">
                         <button class="btn btn-primary">Do it</button>
                     </form>
                     </div>

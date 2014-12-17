@@ -31,14 +31,19 @@ public class TwitterActionServlet extends HttpServlet {
         
         // If it is a post action
         if(action.equals("post")) {
+        	// Find user and get message parameter
         	Entity user = AuthorizationServlet.getUser(req.getSession());
         	String message = req.getParameter("message");
+        	// Get twitter instance with user token
         	Twitter twitter = TwitterServlet.getTwitter(user);
         	try {
+        		// Call Twitter4j API to make a status update call
         		twitter.updateStatus(message);
         	} catch (TwitterException e) {
+        		// Error handling
         		resp.sendRedirect("/success/?status=tweeterror");
         	}
+        	// Give user feedback
             resp.sendRedirect("/success/?status=tweet");
             return;
         }

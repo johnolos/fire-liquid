@@ -38,11 +38,12 @@ public class TwitterServlet  extends HttpServlet {
         try {
         	// Build callback URL. Needs to match settings in Twitter Application Settings
         	String session = req.getSession().getId();
-            StringBuffer callbackURL = req.getRequestURL();
-            int index = callbackURL.lastIndexOf("/");
-            callbackURL.replace(index, callbackURL.length(), "").append("/sign/twitter/?session="+session);
+        	String callbackURL = AppConf.BASE_URL + "sign/twitter/?session=" + session;
+//            StringBuffer callbackURL = req.getRequestURL();
+//            int index = callbackURL.lastIndexOf("/");
+//            callbackURL.replace(index, callbackURL.length(), "").append("/sign/twitter/?session="+session);
                         
-            RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL.toString());
+            RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL);
             MemcacheService synCache = MemcacheServiceFactory.getMemcacheService();
             synCache.put("Twitter"+session, requestToken);
             resp.sendRedirect(requestToken.getAuthenticationURL());
@@ -60,25 +61,25 @@ public class TwitterServlet  extends HttpServlet {
      */
     protected static Twitter getTwitter() {
     	// Check if we already have a Twitter instance in Memcache.
-    	MemcacheService synCache = MemcacheServiceFactory.getMemcacheService();
-    	Twitter twitter = (Twitter)synCache.get("twitter");
-    	if(twitter != null) return twitter;
+//    	MemcacheService synCache = MemcacheServiceFactory.getMemcacheService();
+//    	Twitter twitter = (Twitter)synCache.get("twitter");
+//    	if(twitter != null) return twitter;
 
     	// No twitter instance in memcache. Generate new one.
     	// Add configuration settings to the builder
     	ConfigurationBuilder builder = new ConfigurationBuilder();
-    	builder.setOAuthAccessToken(AppConf.TWITTER_ACCESS);
-    	builder.setOAuthAccessTokenSecret(AppConf.TWITTER_SECRET);
+    	builder.setOAuthAccessToken(null);
+    	builder.setOAuthAccessTokenSecret(null);
     	builder.setOAuthConsumerKey(AppConf.TWITTER_CONSUMER_KEY);
     	builder.setOAuthConsumerSecret(AppConf.TWITTER_CONSUMER_KEY_SECRET);
     	Configuration conf = builder.build();
     	
     	// Create Twitter Instance from Configuration builder
     	TwitterFactory tf = new TwitterFactory(conf);
-    	twitter = tf.getInstance();
+    	Twitter twitter = tf.getInstance();
     	
     	// Put twitter instance in memcache for faster lookup.
-    	synCache.put("twitter", twitter);
+//    	synCache.put("twitter", twitter);
     	// Return Twitter instance ofcourse.
     	return twitter;
     }

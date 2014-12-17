@@ -34,13 +34,16 @@ public class TwitterCallbackServlet extends HttpServlet {
  	 * Receive callback from Twitter with verifier to verify the requestToken.
  	 */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Twitter twitter = TwitterServlet.getTwitter();
+        // Get Twitter instance.
+    	Twitter twitter = TwitterServlet.getTwitter();
         String session = req.getParameter("session");
         Entity user = AuthorizationServlet.getUser(session);
+        // Get requestToken we put in memcache prior to request token call.
         MemcacheService synCache = MemcacheServiceFactory.getMemcacheService();
-        String requestToken = (String)synCache.get("Twitter"+session);
+        RequestToken requestToken = (RequestToken)synCache.get("Twitter"+session);
         String verifier = req.getParameter("oauth_verifier");
         try {
+        	// Extract accessToken after it being verified.
             AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             
@@ -50,6 +53,7 @@ public class TwitterCallbackServlet extends HttpServlet {
     		Query q = new Query("TwitterToken").setFilter(filter);
     		Entity twitterToken = (Entity)datastore.prepare(q).asSingleEntity();
     		
+    		// Create new entity or update old.
     		if(twitterToken == null) {
     			twitterToken = new Entity("TwitterToken");
                 twitterToken.setProperty("User", user.getKey());
@@ -62,8 +66,11 @@ public class TwitterCallbackServlet extends HttpServlet {
     		// Update or put TwitterToken in datastore
     		datastore.put(twitterToken);
         } catch (TwitterException e) {
-            resp.sendRedirect("/success/status=twittererror");
+            resp.sendRedirect("/success/?status=twittererror");
         }
-        resp.sendRedirect("/success/status=twitter");
+        // Clean up memcache after using it.
+        synCache.delete("Twitter"+session);
+        
+        resp.sendRedirect("/success/?status=twitter");
     }
 }

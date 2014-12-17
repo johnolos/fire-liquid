@@ -133,10 +133,22 @@ if(user == null) {
 					<strong>Success!</strong> Your statuses was fetched from facebook.
 				</div>
 					<%
+				}else if(status.equals("tweet")) {
+					%>
+				<div class="alert alert-success" role="alert">
+					<strong>Success!</strong> Your message is now tweeted as your status.
+				</div>
+					<%
 				} else if(status.equals("password")) {
 					%>
 				<div class="alert alert-success" role="alert">
 					<strong>Success!</strong> Your password was changed. Please log in to continue.
+				</div>
+					<%
+				} else if(status.equals("twitter")) {
+					%>
+				<div class="alert alert-success" role="alert">
+					<strong>Success!</strong> Your twitter account is now verified.
 				</div>
 					<%
 				} else if(status.equals("updateerror")) {
@@ -145,7 +157,19 @@ if(user == null) {
 					<strong>Warning!</strong> Profile not updated due to wrong password or not matching password inputs.
 				</div>
 					<%
-				}else if(status.equals("posterror")) {
+				} else if(status.equals("twittererror")) {
+					%>
+				<div class="alert alert-danger" role="alert">
+					<strong>Warning!</strong> Your twitter account was not verified. Try again later.
+				</div>
+					<%
+				} else if(status.equals("tweeterror")) {
+					%>
+				<div class="alert alert-danger" role="alert">
+					<strong>Warning!</strong> Your message was not tweeted. Make sure your message is not empty.
+				</div>
+					<%
+				} else if(status.equals("posterror")) {
 					%>
 				<div class="alert alert-danger" role="alert">
 					<strong>Warning!</strong> Your facebook action did not go through. Please authenticate facebook once again.
